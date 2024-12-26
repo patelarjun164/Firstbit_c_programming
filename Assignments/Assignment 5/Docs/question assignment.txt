@@ -1,0 +1,25 @@
+Q)Find Area And perimeter of rectangle and circle
+Q)Find sum of digits of number and reverse
+Q)Find Even or Odd
+Q)Find Salary after calculating da,ta, hra
+Q) Swap two Variables
+Q) Find driver eligibility
+Q)Discount on price
+Q) Find Greatest of 3 using nested if
+Q) Accept two numbers from user and an operator (+,-,/,*,%) based on that perform the desired operations.
+Q) Display a menu to the user (like 1.Even Odd 2. Basic salary etc), ask the user to enter his choice, then based on that perform the desired operations. 
+Q) Accept the price from user. Ask the user if he is a student (user may say yes or no). If he is a student and he has purchased more than 500 than discount is 20% otherwise discount is 10%. But if he is not a student then if he has purchased more than 600 discount is 15% otherwise there is not discount. 
+Q)Print 1 to 10
+Q) Print table for the given number.
+Q)Check Prime number
+Q)Check Armstrong Number
+Q)Perfect Number
+Q)Find Factorial
+Q)Strong Number
+Q) Palindrome
+Q)Add first dig and last dig of a num and show summation
+Q)Print Armstrong number in range 1 to n
+Q)Check Prime number in Range
+Q)Check Perfect num in range
+Q) Check Strong number in range 1 to n
+Q)Print Fibonacci upto n number

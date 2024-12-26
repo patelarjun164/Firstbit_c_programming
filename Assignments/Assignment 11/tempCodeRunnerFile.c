@@ -1,0 +1,4 @@
+
+    char* dup = checkPalindrome(str);
+    
+    !
