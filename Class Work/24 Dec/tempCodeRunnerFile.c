@@ -1,8 +1,7 @@
-#include<stdio.h>
-int main(){
-    int n;
-    printf("Enter n\n");
-    scanf("%d\n", &n);
-    printf("Hello %d",n);
+
+    char str2[30];
+    scanf("%s", str2);
+
+    printf("%u \n", strstr(str, str2)-str);
     return 0;
 }

@@ -23,6 +23,7 @@ int countWords(char* str){
             count++;
         }
     }
+    if(!count) return count;
     return ++count;
 }
 
