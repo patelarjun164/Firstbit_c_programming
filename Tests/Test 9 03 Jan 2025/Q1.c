@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-char *findDupCharArr(char *str)
+char* removeDupCharArr(char *str)
 {
     int len = strlen(str);
     for (int i = 0; i < len; i++)
@@ -24,29 +24,18 @@ char *findDupCharArr(char *str)
         }
         str[len] = '\0';
     }
-    printf("-----final output   %s\n", str);
+    return str;
 }
-
-// void removeDuplicateChar(char* str){
-//     int length = strlen(str);
-//     char* dupChar = findDupCharArr(str);
-
-// }
 
 int main()
 {
     char str[50];
     printf("enter string\n");
     scanf("%s", str);
-    // if (fgets(str, sizeof(str), stdin))
-    // {
-    //     int len = strlen(str);
-    //     if (str[len - 1] == '\n')
-    //     {
-    //         str[len - 1] = '\0';
-    //     }
-    // }
 
-    findDupCharArr(str);
+    printf("---Before---\n");
+    printf("%s\n", str);
+    printf("---After---\n");
+    printf("%s\n", removeDupCharArr(str));
     return 0;
 }
