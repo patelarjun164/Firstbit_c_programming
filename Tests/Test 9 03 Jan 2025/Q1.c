@@ -6,25 +6,25 @@ char *findDupCharArr(char *str)
     int len = strlen(str);
     for (int i = 0; i < len; i++)
     {
-        int count=0;
-        printf("1.1  \n");
-        for (int j = i+1; j < len; j++)
+        int j = i + 1;
+        while (j < len)
         {
-            printf("1.2  \n");
-            if(str[j] ==str[i]){
-                count++; 
-                for (int k = j; k < len-1; k++)
+            if (str[j] == str[i])
+            {
+                for (int k = j; k < len; k++)
                 {
-                    printf("1.3  \n");
-                    str[k] = str[k+1];
-                } 
+                    str[k] = str[k + 1];
+                }
+                len--;
             }
-                printf("1.3  %s  \n", str);
+            else
+            {
+                j++;
+            }
         }
-        printf("---Count--> %d \n", count);
+        str[len] = '\0';
     }
-    // str[count] = '\0';
-    printf("-----final output   \n%s", str);
+    printf("-----final output   %s\n", str);
 }
 
 // void removeDuplicateChar(char* str){
