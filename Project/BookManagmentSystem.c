@@ -30,6 +30,7 @@ void getInputFGets(char *str, size_t size, const char *msg)
     }
 }
 
+
 int findAvaialableBookId(Book *brr)
 {
     int i, flag;
@@ -48,7 +49,6 @@ int findAvaialableBookId(Book *brr)
     }
     return 0;
 }
-
 int addBook(Book *brr)
 {
 
@@ -96,46 +96,46 @@ int addBook(Book *brr)
 
 void displayAllBooks(Book *brr, const char ch)
 {
-    printf("-------------------------------------------------------------------------------        \n");
-    printf("| \033[1;35m%-8s\033[0m| \033[1;35m%-20s\033[0m|  \033[1;35m%-12s\033[0m| \033[1;35m%-12s\033[0m| \033[1;35m%-6s\033[0m| \033[1;35m%-6s\033[0m |\n", "Book Id", "Book Name", "Author Name", "Category", "Price", "Rating");
-    printf("|---------|---------------------|--------------|-------------|-------|--------|\n");
+    printf("------------------------------------------------------------------------------------        \n");
+    printf("| \033[1;35m%-8s\033[0m| \033[1;35m%-25s\033[0m|  \033[1;35m%-12s\033[0m| \033[1;35m%-12s\033[0m| \033[1;35m%-6s\033[0m| \033[1;35m%-6s\033[0m |\n", "Book Id", "Book Name", "Author Name", "Category", "Price", "Rating");
+    printf("|---------|--------------------------|--------------|-------------|-------|--------|\n");
     // printf("\n\033[1;33m---------------------------------------\033[0m\n");
     for (int i = 0; i < bookIndex; i++)
     {
-        ch == 'g' && printf("| %-8d| %-20s|  %-12s| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+        ch == 'g' && printf("| %-8d| %-25s|  %-12s| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
 
-        ch == 'i' && printf("| \033[1;33m%-8d\033[0m| %-20s|  %-12s| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+        ch == 'i' && printf("| \033[1;33m%-8d\033[0m| %-25s|  %-12s| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
 
-        ch == 'r' && printf("| %-8d| %-20s|  %-12s| %-12s| %-6d| \033[1;33m%.1lf\033[1;33m%-3s\033[0m |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+        ch == 'r' && printf("| %-8d| %-25s|  %-12s| %-12s| %-6d| \033[1;33m%.1lf\033[1;33m%-3s\033[0m |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
 
-        ch == 'p' && printf("| %-8d| %-20s|  %-12s| %-12s| \033[1;33m%-6d\033[0m| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+        ch == 'p' && printf("| %-8d| %-25s|  %-12s| %-12s| \033[1;33m%-6d\033[0m| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
 
-        ch == 'a' && printf("| %-8d| %-20s|  \033[1;33m%-12s\033[0m| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+        ch == 'a' && printf("| %-8d| %-25s|  \033[1;33m%-12s\033[0m| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
 
-        ch == 'c' && printf("| %-8d| %-20s|  %-12s| \033[1;33m%-12s\033[0m| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
-        i != (bookIndex - 1) && printf("|---------|---------------------|--------------|-------------|-------|--------|\n");
+        ch == 'c' && printf("| %-8d| %-25s|  %-12s| \033[1;33m%-12s\033[0m| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+        i != (bookIndex - 1) && printf("|---------|--------------------------|--------------|-------------|-------|--------|\n");
     }
-    printf("-------------------------------------------------------------------------------        \n");
+    printf("------------------------------------------------------------------------------------        \n");
 }
 
 void displayBookByIndex(Book *brr, int i, const char ch)
 {
-    printf("-------------------------------------------------------------------------------        \n");
-    printf("| \033[1;35m%-8s\033[0m| \033[1;35m%-20s\033[0m|  \033[1;35m%-12s\033[0m| \033[1;35m%-12s\033[0m| \033[1;35m%-6s\033[0m| \033[1;35m%-6s\033[0m |\n", "Book Id", "Book Name", "Author Name", "Category", "Price", "Rating");
+    printf("------------------------------------------------------------------------------------        \n");
+    printf("| \033[1;35m%-8s\033[0m| \033[1;35m%-25s\033[0m|  \033[1;35m%-12s\033[0m| \033[1;35m%-12s\033[0m| \033[1;35m%-6s\033[0m| \033[1;35m%-6s\033[0m |\n", "Book Id", "Book Name", "Author Name", "Category", "Price", "Rating");
 
-    printf("|---------|---------------------|--------------|-------------|-------|--------|\n");
-    ch == 'n' && printf("| %-8d| \033[1;33m%-20s\033[0m|  %-12s| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+    printf("|---------|--------------------------|--------------|-------------|-------|--------|\n");
+    ch == 'n' && printf("| %-8d| \033[1;33m%-25s\033[0m|  %-12s| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
 
-    ch == 'i' && printf("| \033[1;33m%-8d\033[0m| %-20s|  %-12s| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+    ch == 'i' && printf("| \033[1;33m%-8d\033[0m| %-25s|  %-12s| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
 
-    ch == 'r' && printf("| %-8d| %-20s|  %-12s| %-12s| %-6d| \033[1;33m%.1lf\033[1;33m%-3s\033[0m |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+    ch == 'r' && printf("| %-8d| %-25s|  %-12s| %-12s| %-6d| \033[1;33m%.1lf\033[1;33m%-3s\033[0m |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
 
-    ch == 'p' && printf("| %-8d| %-20s|  %-12s| %-12s| \033[1;33m%-6d\033[0m| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+    ch == 'p' && printf("| %-8d| %-25s|  %-12s| %-12s| \033[1;33m%-6d\033[0m| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
 
-    ch == 'a' && printf("| %-8d| %-20s|  \033[1;33m%-12s\033[0m| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+    ch == 'a' && printf("| %-8d| %-25s|  \033[1;33m%-12s\033[0m| %-12s| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
 
-    ch == 'c' && printf("| %-8d| %-20s|  %-12s| \033[1;33m%-12s\033[0m| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
-    printf("-------------------------------------------------------------------------------        \n");
+    ch == 'c' && printf("| %-8d| %-25s|  %-12s| \033[1;33m%-12s\033[0m| %-6d| %.1lf%-3s |\n", brr[i].bookId, brr[i].bookName, brr[i].authorName, brr[i].category, brr[i].price, brr[i].rating, "");
+    printf("------------------------------------------------------------------------------------        \n");
 }
 
 int searchBookById(Book *brr, int tempId)
@@ -152,7 +152,7 @@ int searchBookById(Book *brr, int tempId)
 void searchBookByName(Book *brr)
 {
     char tempName[30];
-    int foundBooksIndex[100], tempIndex = 0, tempId, count = 0, res = -1;
+    int flag=1,res = -1;
 
     // Taking book name to search
     getInputFGets(tempName, sizeof(tempName), "Enter book name to search\n"); // showing available books which contains searched substring
@@ -161,26 +161,12 @@ void searchBookByName(Book *brr)
     {
         if (strstr(strlwr(brr[i].bookName), strlwr(tempName)))
         {
-            foundBooksIndex[tempIndex++] = i;
-            count++;
-            printf("Book Id -> %d  |  Book Name -> %s\n", brr[i].bookId, brr[i].bookName);
+            displayBookByIndex(brr, i, 'n');
+            flag=0;
         }
     }
-    // returning book
-    if (count)
-    {
-        printf("\nEnter book id you want to search\n");
-        scanf("%d", &tempId);
-        fflush(stdin);
-        res = searchBookById(brr, tempId);
-    }
-
-    if (res != -1)
-    {
-        displayBookByIndex(brr, res, 'n');
-    }
-    else
-        printf("\n\033[1;31mBook Not Found! Try again with available book id!\033[0m\n");
+    
+    flag && printf("\n\033[1;31mBook Not Found! Try again with available book names!\033[0m\n\n");
 }
 
 void fetchBooksByAuthor(Book *brr)
@@ -210,7 +196,7 @@ void fetchBooksByCategory(Book *brr)
     getInputFGets(tempName, sizeof(tempName), "Enter category to search books\n");
     for (int i = 0; i < bookIndex; i++)
     {
-        if (strcmp(brr[i].category, tempName) == 0)
+        if (strstr(strlwr(brr[i].category), strlwr(tempName)))
         {
             displayBookByIndex(brr, i, 'c');
             flag = 1;
@@ -293,13 +279,6 @@ void sortBookByPrice(Book *brr)
     }
 
     int choice, costliestBookId, cheapestBookId;
-    printf("Press 1 for low to high pricing\n");
-    printf("Press 2 for High to low pricing\n");
-    printf("Press 3 to find costliest book\n");
-    printf("Press 4 to find most afforadable book\n");
-    scanf("%d", &choice);
-    
-
     for (int i = 0; i < bookIndex; i++)
     {
         for (int j = i + 1; j < bookIndex; j++)
@@ -310,32 +289,61 @@ void sortBookByPrice(Book *brr)
                 copyBrr[i] = copyBrr[j];
                 copyBrr[j] = temp;
             }
-            else if (choice == 2 && (copyBrr[i].price < copyBrr[j].price))
-            {
-                Book temp = copyBrr[i];
-                copyBrr[i] = copyBrr[j];
-                copyBrr[j] = temp;
-            }
         }
     }
+    costliestBookId = copyBrr[bookIndex - 1].bookId;
+    cheapestBookId = copyBrr[0].bookId;
+    printf("Press 1 for low to high pricing\n");
+    printf("Press 2 for High to low pricing\n");
+    printf("Press 3 to find costliest book\n");
+    printf("Press 4 to find most afforadable book\n");
+    printf("Press 5 to top 3 highly priced book\n");
+    scanf("%d", &choice);
 
-    if (choice == 1)
-        costliestBookId = copyBrr[bookIndex - 1].bookId;
-    else
-        cheapestBookId = copyBrr[bookIndex - 1].bookId;
+    switch (choice)
+    {
+    case 1:
+    {
+        printf("\t\t\033[1;36m------Books Sorted by Price LOW to HIGH------\033[0m\n");
+        displayAllBooks(copyBrr, 'p');
+        break;
+    }
+    case 2:
+    {
+        for (int i = 0; i < bookIndex / 2; i++)
+        {
+            Book temp = copyBrr[i];
+            copyBrr[i] = copyBrr[bookIndex - i - 1];
+            copyBrr[bookIndex - i - 1] = temp;
+        }
+        printf("\t\t\033[1;36m------Books Sorted by Price LOW to HIGH------\033[0m\n");
+        displayAllBooks(copyBrr, 'p');
+        break;
+    }
+    case 3:
+    {
+        printf("\t\t\033[1;36m------Costliest Book in Library------\033[0m\n");
+        displayBookByIndex(brr, searchBookById(brr, costliestBookId), 'p');
+        break;
+    }
+    case 4:
+    {
+        printf("\t\t\033[1;36m------Most Affordable Book in Library------\033[0m\n");
+        displayBookByIndex(brr, searchBookById(brr, cheapestBookId), 'p');
+        break;
+    }
+    case 5: {
+        printf("\t\t\033[1;36m-----Top 3 Highly Priced books-----\033[0m\n");
+        for (int i = bookIndex - 1; i >= bookIndex - 3; i--)
+        {
+            displayBookByIndex(copyBrr, i, 'p');
+        }
+        break;
+    }
 
-    if (choice == 2)
-        costliestBookId = copyBrr[0].bookId;
-    else
-        cheapestBookId = copyBrr[0].bookId;
-
-    printf("\t\t\033[1;36m------Books Sorted by Price------\033[0m\n");
-    displayAllBooks(copyBrr, 'p');
-    printf("\t\t\033[1;36m------Costliest Book in Library------\033[0m\n");
-    displayBookByIndex(brr, searchBookById(brr, costliestBookId), 'p');
-    // As displayBookByIndex takes index as second parameter
-    printf("\t\t\033[1;36m------Cheapest Book in Library------\033[0m\n");
-    displayBookByIndex(brr, searchBookById(brr, cheapestBookId), 'p');
+    default:
+        break;
+    }
 }
 
 void sortBookByRating(Book *brr)
@@ -360,13 +368,13 @@ void sortBookByRating(Book *brr)
     }
     printf("Press 1 for low to high rating\n");
     printf("Press 2 for High to low rating\n");
-    printf("Press 3 to find costliest book\n");
-    printf("Press 4 to find most afforadable book\n");
+    printf("Press 3 to Highest Rated book\n");
+    printf("Press 4 to Lowest Rated book\n");
     printf("Press 5 to list top 3 rated books\n");
     scanf("%d", &choice);
-    
+
     highestRatedBookId = copyBrr[bookIndex - 1].bookId;
-    lowRatedBookId = copyBrr[bookIndex - 1].bookId;
+    lowRatedBookId = copyBrr[0].bookId;
 
     switch (choice)
     {
@@ -381,8 +389,8 @@ void sortBookByRating(Book *brr)
         for (int i = 0; i < bookIndex / 2; i++)
         {
             Book temp = copyBrr[i];
-            copyBrr[i] = copyBrr[bookIndex - i-1];
-            copyBrr[bookIndex - i-1] = temp;
+            copyBrr[i] = copyBrr[bookIndex - i - 1];
+            copyBrr[bookIndex - i - 1] = temp;
         }
 
         printf("\t\033[1;36m------Books sorted by Rating HIGH to LOW------\033[0m\n");
@@ -404,7 +412,7 @@ void sortBookByRating(Book *brr)
     case 5:
     {
         printf("\t\t\033[1;36m-----Top 3 Rated books-----\033[0m\n");
-        for (int i = bookIndex-1; i >= bookIndex-3; i--)
+        for (int i = bookIndex - 1; i >= bookIndex - 3; i--)
         {
             displayBookByIndex(copyBrr, i, 'r');
         }
@@ -563,11 +571,13 @@ int main()
         }
         case 9:
         {
+            displayAllBooks(brr, 'i');
             updateBookById(brr);
             break;
         }
         case 10:
         {
+            displayAllBooks(brr, 'i');
             int res = removeBook(brr);
             res ? printf("\033[1;32mBook with id-> %d deleted successfully...!\033[0m\n", res) : printf("\033[1;31mBook not found with such id! Try again with valid book id.\033[0m\n");
             break;
