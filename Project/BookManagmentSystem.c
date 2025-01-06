@@ -2,11 +2,10 @@
 #include <string.h>
 
 // global variable
-int bookIndex = 4;
+int bookIndex = 9;
 
 typedef struct Book
 {
-    int index;
     unsigned int bookId;
     char bookName[50];
     char authorName[20];
@@ -30,7 +29,6 @@ void getInputFGets(char *str, size_t size, const char *msg)
     }
 }
 
-
 int findAvaialableBookId(Book *brr)
 {
     int i, flag;
@@ -49,9 +47,9 @@ int findAvaialableBookId(Book *brr)
     }
     return 0;
 }
+
 int addBook(Book *brr)
 {
-
     static int staticBookId = 1004;
     int nCount;
     printf("How many book do you want to add?\n");
@@ -178,13 +176,13 @@ void fetchBooksByAuthor(Book *brr)
     getInputFGets(tempName, sizeof(tempName), "Enter author name to search his books\n");
     for (int i = 0; i < bookIndex; i++)
     {
-        if (strcmp(brr[i].authorName, tempName) == 0)
+        if (strstr(strlwr(brr[i].authorName), strlwr(tempName)))
         {
             displayBookByIndex(brr, i, 'a');
             flag = 1;
         }
     }
-    !flag &&printf("Book not found written by this author!\n");
+    !flag &&printf("\033[1;31m Book not found written by this author!\033[0m\n");
 }
 
 void fetchBooksByCategory(Book *brr)
@@ -202,7 +200,7 @@ void fetchBooksByCategory(Book *brr)
             flag = 1;
         }
     }
-    !flag &&printf("Book not found for this category!\n");
+    !flag &&printf("\033[1;31mBook not found for this category!\033[0m\n\n");
 }
 
 int updateBookById(Book *brr)
@@ -266,7 +264,7 @@ int updateBookById(Book *brr)
     }
     else
     {
-        printf("Invalid choice!!!\n");
+        printf("\033[1;31m Invalid choice!!!\033[0m\n");
     }
 }
 
@@ -299,6 +297,7 @@ void sortBookByPrice(Book *brr)
     printf("Press 4 to find most afforadable book\n");
     printf("Press 5 to top 3 highly priced book\n");
     scanf("%d", &choice);
+    fflush(stdin);
 
     switch (choice)
     {
@@ -342,6 +341,7 @@ void sortBookByPrice(Book *brr)
     }
 
     default:
+        printf("\t\033[1;31mInvalid Choice!!!\033[0m\n\n");
         break;
     }
 }
@@ -439,7 +439,6 @@ int removeBook(Book *brr)
     for (int i = indexOfBook; i < bookIndex - 1; i++)
     {
         brr[i] = brr[i + 1];
-        brr[i].index--;
     }
     bookIndex--;
     return tempId;
@@ -448,15 +447,13 @@ int removeBook(Book *brr)
 void storeHardCodedValues(Book *brr)
 {
     // hardcoded values for testing
-    brr[0].index = 0;
     brr[0].bookId = 1000;
     strcpy(brr[0].bookName, "C Programming");
     strcpy(brr[0].category, "cs");
     strcpy(brr[0].authorName, "arjun");
-    brr[0].price = 550;
+    brr[0].price = 750;
     brr[0].rating = 4.5;
 
-    brr[1].index = 1;
     brr[1].bookId = 1001;
     strcpy(brr[1].bookName, "C Plus Plus");
     strcpy(brr[1].category, "cs");
@@ -464,26 +461,59 @@ void storeHardCodedValues(Book *brr)
     brr[1].price = 820;
     brr[1].rating = 5;
 
-    brr[2].index = 2;
     brr[2].bookId = 1002;
-    strcpy(brr[2].bookName, "Python for ML");
+    strcpy(brr[2].bookName, "Java");
     strcpy(brr[2].authorName, "mike");
     strcpy(brr[2].category, "cs");
     brr[2].price = 950;
     brr[2].rating = 3.8;
 
-    brr[3].index = 3;
     brr[3].bookId = 1003;
     strcpy(brr[3].bookName, "Machine Design");
     strcpy(brr[3].category, "mechanical");
     strcpy(brr[3].authorName, "arjun");
-    brr[3].price = 1250;
-    brr[3].rating = 4.2;
+    brr[3].price = 1500;
+    brr[3].rating = 5.1;
+
+    brr[4].bookId = 1004;
+    strcpy(brr[4].bookName, "Fluid Mechanics");
+    strcpy(brr[4].category, "mechanical");
+    strcpy(brr[4].authorName, "mike");
+    brr[4].price = 1750;
+    brr[4].rating = 3.2;
+
+    brr[5].bookId = 1005;
+    strcpy(brr[5].bookName, "Thermodynamics");
+    strcpy(brr[5].category, "mechanical");
+    strcpy(brr[5].authorName, "Jack");
+    brr[5].price = 1250;
+    brr[5].rating = 4.9;
+
+    brr[6].bookId = 1006;
+    strcpy(brr[6].bookName, "Control System");
+    strcpy(brr[6].category, "electric");
+    strcpy(brr[6].authorName, "arjun");
+    brr[6].price = 754;
+    brr[6].rating = 2.9;
+
+    brr[7].bookId = 1007;
+    strcpy(brr[7].bookName, "Electrical Power System");
+    strcpy(brr[7].category, "electric");
+    strcpy(brr[7].authorName, "jack");
+    brr[7].price = 850;
+    brr[7].rating = 3.6;
+
+    brr[8].bookId = 1008;
+    strcpy(brr[8].bookName, "DC Generators");
+    strcpy(brr[8].category, "electric");
+    strcpy(brr[8].authorName, "mike");
+    brr[8].price = 1570;
+    brr[8].rating = 4.5;
 }
 
 int main()
 {
-    int n, actualIndex = 4;
+    int n;
     Book brr[50];
 
     // hardcoded values for testing
@@ -491,6 +521,7 @@ int main()
 
     printf("\n\t\033[1;35m Welcome to Library\033[0m\n\n");
     printf("Enter valid choice\n");
+    fflush(stdin);
     while (1)
     {
 
@@ -518,6 +549,7 @@ int main()
 
         case 1:
         {
+            fflush(stdin);
             unsigned int res = addBook(brr);
             if (res != 1)
             {
@@ -577,9 +609,8 @@ int main()
         }
         case 10:
         {
-            displayAllBooks(brr, 'i');
             int res = removeBook(brr);
-            res ? printf("\033[1;32mBook with id-> %d deleted successfully...!\033[0m\n", res) : printf("\033[1;31mBook not found with such id! Try again with valid book id.\033[0m\n");
+            res ? printf("\033[1;32mBook with id-> \033[1;33m%d\033[0m \033[1;32mdeleted successfully...!\033[0m\n", res) : printf("\033[1;31mBook not found with such id! Try again with valid book id.\033[0m\n");
             break;
         }
         default:
