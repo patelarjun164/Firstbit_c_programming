@@ -1,0 +1,22 @@
+// Bright colors
+    printf("\033[1;30mThis is bright black (gray) text\033[0m\n");
+    printf("\033[1;31mThis is bright red text\033[0m\n");
+    printf("\033[1;32mThis is bright green text\033[0m\n");
+    printf("\033[1;33mThis is bright yellow text\033[0m\n");
+    printf("\033[1;34mThis is bright blue text\033[0m\n");
+    printf("\033[1;35mThis is bright magenta text\033[0m\n");
+    printf("\033[1;36mThis is bright cyan text\033[0m\n");
+    printf("\033[1;37mThis is bright white text\033[0m\n");
+
+\033[1;36m \033[0m 
+|---------|----------------|--------------|-------------|-------|--------|
+--------------------------------------------------------------------------        
+| Book Id | Book Name      |  Author Name | Category    | Price | Rating |
+
+\033[1;35m 
+\033[0m
+
+7 habits of life is good
+
+|---------|---------------------|--------------|-------------|-------|--------|     
+| 1000    | C Programming       |  arjun       | cs          | 550   | 4.5    |

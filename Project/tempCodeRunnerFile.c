@@ -1,1 +1,1 @@
-\033[1;
+displayAll
