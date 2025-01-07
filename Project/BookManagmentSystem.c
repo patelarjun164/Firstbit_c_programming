@@ -139,12 +139,13 @@ void displayBookByIndex(Book *brr, int i, const char ch)
     printf("------------------------------------------------------------------------------------        \n");
 }
 
-int searchBookById(Book *brr,Book* tempBrr, int tempId)
+int searchBookById(Book *brr, Book *tempBrr, int tempId)
 {
     // Showing available books
     for (int i = 0; i < bookIndex; i++)
     {
-        if (brr[i].bookId == tempId){
+        if (brr[i].bookId == tempId)
+        {
             tempBrr[0] = brr[i];
             return i;
         }
@@ -152,10 +153,9 @@ int searchBookById(Book *brr,Book* tempBrr, int tempId)
     return -1;
 }
 
-void searchBookByName(Book *brr)
+void searchBookByName(Book *brr, Book *tempBrr)
 {
     char tempName[30];
-    Book temp[20];
     int flag = 1, res = -1, tempCount = 0;
 
     // Taking book name to search
@@ -170,21 +170,21 @@ void searchBookByName(Book *brr)
     {
         if (strstr(strlwr(brr[i].bookName), strlwr(tempName)))
         {
-            temp[tempCount++] = brr[i];
+            tempBrr[tempCount++] = brr[i];
             flag = 0;
         }
     }
 
     if (!flag)
-        displayAllBooks(temp, tempCount, 'n');
+        displayAllBooks(tempBrr, tempCount, 'n');
 
     flag &&printf("\n\033[1;31mBook Not Found! Try again with available book names!\033[0m\n\n");
 }
 
-void fetchBooksByAuthor(Book *brr)
+void fetchBooksByAuthor(Book *brr, Book *tempBrr)
 {
     char tempName[50];
-    int flag = 0;
+    int tempCount = 0;
 
     // taking authorname
     getInputFGets(tempName, sizeof(tempName), "Enter author name to search his books\n");
@@ -192,17 +192,20 @@ void fetchBooksByAuthor(Book *brr)
     {
         if (strstr(strlwr(brr[i].authorName), strlwr(tempName)))
         {
-            displayBookByIndex(brr, i, 'a');
-            flag = 1;
+            tempBrr[tempCount++] = brr[i];
         }
     }
-    !flag &&printf("\033[1;31m Book not found written by this author!\033[0m\n");
+
+    if (tempCount)
+        displayAllBooks(tempBrr, tempCount, 'a');
+
+    !tempCount &&printf("\033[1;31m Book not found written by this author!\033[0m\n");
 }
 
-void fetchBooksByCategory(Book *brr)
+void fetchBooksByCategory(Book *brr, Book *tempBrr)
 {
     char tempName[50];
-    int flag = 0;
+    int tempCount = 0;
 
     // taking category from user
     getInputFGets(tempName, sizeof(tempName), "Enter category to search books\n");
@@ -210,19 +213,21 @@ void fetchBooksByCategory(Book *brr)
     {
         if (strstr(strlwr(brr[i].category), strlwr(tempName)))
         {
-            displayBookByIndex(brr, i, 'c');
-            flag = 1;
+            tempBrr[tempCount++] = brr[i];
         }
     }
-    !flag &&printf("\033[1;31mBook not found for this category!\033[0m\n\n");
+    !tempCount &&printf("\033[1;31mBook not found for this category!\033[0m\n\n");
+
+    if (tempCount)
+        displayAllBooks(tempBrr, tempCount, 'c');
 }
 
-int updateBookById(Book *brr,Book* tempBrr)
+int updateBookById(Book *brr, Book *tempBrr)
 {
     int tempId, choice;
     printf("Enter book id to update\n");
     scanf("%d", &tempId);
-    int res = searchBookById(brr,tempBrr, tempId);
+    int res = searchBookById(brr, tempBrr, tempId);
     if (res == -1)
     {
         printf("Book not exists...!\n");
@@ -282,28 +287,13 @@ int updateBookById(Book *brr,Book* tempBrr)
     }
 }
 
-void sortBookByPrice(Book *brr, Book* tempBrr)
+void sortBookByPrice(Book *brr, Book *tempBrr)
 {
+    int choice, costliestBookId, cheapestBookId;
     for (int i = 0; i < bookIndex; i++)
     {
         tempBrr[i] = brr[i];
     }
-
-    int choice, costliestBookId, cheapestBookId;
-    for (int i = 0; i < bookIndex; i++)
-    {
-        for (int j = i + 1; j < bookIndex; j++)
-        {
-            if (tempBrr[i].price > tempBrr[j].price)
-            {
-                Book temp = tempBrr[i];
-                tempBrr[i] = tempBrr[j];
-                tempBrr[j] = temp;
-            }
-        }
-    }
-    costliestBookId = tempBrr[bookIndex - 1].bookId;
-    cheapestBookId = tempBrr[0].bookId;
     printf("Press 1 for low to high pricing\n");
     printf("Press 2 for High to low pricing\n");
     printf("Press 3 to find costliest book\n");
@@ -311,6 +301,29 @@ void sortBookByPrice(Book *brr, Book* tempBrr)
     printf("Press 5 to top 3 highly priced book\n");
     scanf("%d", &choice);
     fflush(stdin);
+
+    for (int i = 0; i < bookIndex; i++)
+    {
+        for (int j = i + 1; j < bookIndex; j++)
+        {
+            if ((choice == 1) ? tempBrr[i].price > tempBrr[j].price : tempBrr[i].price < tempBrr[j].price)
+            {
+                Book temp = tempBrr[i];
+                tempBrr[i] = tempBrr[j];
+                tempBrr[j] = temp;
+            }
+        }
+    }
+    if (choice == 1)
+    {
+        costliestBookId = tempBrr[bookIndex - 1].bookId;
+        cheapestBookId = tempBrr[0].bookId;
+    }
+    else
+    {
+        costliestBookId = tempBrr[0].bookId;
+        cheapestBookId = tempBrr[bookIndex - 1].bookId;
+    }
 
     switch (choice)
     {
@@ -322,12 +335,6 @@ void sortBookByPrice(Book *brr, Book* tempBrr)
     }
     case 2:
     {
-        for (int i = 0; i < bookIndex / 2; i++)
-        {
-            Book temp = tempBrr[i];
-            tempBrr[i] = tempBrr[bookIndex - i - 1];
-            tempBrr[bookIndex - i - 1] = temp;
-        }
         printf("\t\t\033[1;36m------Books Sorted by Price LOW to HIGH------\033[0m\n");
         displayAllBooks(tempBrr, bookIndex, 'p');
         break;
@@ -335,22 +342,23 @@ void sortBookByPrice(Book *brr, Book* tempBrr)
     case 3:
     {
         printf("\t\t\033[1;36m------Costliest Book in Library------\033[0m\n");
-        displayBookByIndex(brr, searchBookById(brr,tempBrr, costliestBookId), 'p');
+        int res = searchBookById(brr, tempBrr, costliestBookId);
+        tempBrr[0] = brr[res];
+        displayAllBooks(tempBrr, 1, 'p');
         break;
     }
     case 4:
     {
         printf("\t\t\033[1;36m------Most Affordable Book in Library------\033[0m\n");
-        displayBookByIndex(brr, searchBookById(brr,tempBrr, cheapestBookId), 'p');
+        int res = searchBookById(brr, tempBrr, cheapestBookId);
+        tempBrr[0] = brr[res];
+        displayAllBooks(tempBrr, 1, 'p');
         break;
     }
     case 5:
     {
         printf("\t\t\033[1;36m-----Top 3 Highly Priced books-----\033[0m\n");
-        for (int i = bookIndex - 1; i >= bookIndex - 3; i--)
-        {
-            displayBookByIndex(tempBrr, i, 'p');
-        }
+        displayAllBooks(tempBrr, 3, 'p');
         break;
     }
 
@@ -360,25 +368,15 @@ void sortBookByPrice(Book *brr, Book* tempBrr)
     }
 }
 
-void sortBookByRating(Book *brr,Book* tempBrr)
+void sortBookByRating(Book *brr, Book *tempBrr)
 {
+    int choice, highestRatedBookId, lowRatedBookId;
     for (int i = 0; i < bookIndex; i++)
     {
         tempBrr[i] = brr[i];
     }
-    int choice, highestRatedBookId, lowRatedBookId;
-    for (int i = 0; i < bookIndex; i++)
-    {
-        for (int j = i + 1; j < bookIndex; j++)
-        {
-            if (tempBrr[i].rating > tempBrr[j].rating)
-            {
-                Book temp = tempBrr[i];
-                tempBrr[i] = tempBrr[j];
-                tempBrr[j] = temp;
-            }
-        }
-    }
+
+    // asking user to input choice so as to sort array acoordingly
     printf("Press 1 for low to high rating\n");
     printf("Press 2 for High to low rating\n");
     printf("Press 3 to Highest Rated book\n");
@@ -386,8 +384,29 @@ void sortBookByRating(Book *brr,Book* tempBrr)
     printf("Press 5 to list top 3 rated books\n");
     scanf("%d", &choice);
 
-    highestRatedBookId = tempBrr[bookIndex - 1].bookId;
-    lowRatedBookId = tempBrr[0].bookId;
+    for (int i = 0; i < bookIndex; i++)
+    {
+        for (int j = i + 1; j < bookIndex; j++)
+        {
+            if ((choice == 1) ? tempBrr[i].rating > tempBrr[j].rating : tempBrr[i].rating < tempBrr[j].rating)
+            {
+                Book temp = tempBrr[i];
+                tempBrr[i] = tempBrr[j];
+                tempBrr[j] = temp;
+            }
+        }
+    }
+
+    if (choice == 1)
+    {
+        highestRatedBookId = tempBrr[bookIndex - 1].bookId;
+        lowRatedBookId = tempBrr[0].bookId;
+    }
+    else
+    {
+        highestRatedBookId = tempBrr[0].bookId;
+        lowRatedBookId = tempBrr[bookIndex - 1].bookId;
+    }
 
     switch (choice)
     {
@@ -399,13 +418,6 @@ void sortBookByRating(Book *brr,Book* tempBrr)
     }
     case 2:
     {
-        for (int i = 0; i < bookIndex / 2; i++)
-        {
-            Book temp = tempBrr[i];
-            tempBrr[i] = tempBrr[bookIndex - i - 1];
-            tempBrr[bookIndex - i - 1] = temp;
-        }
-
         printf("\t\033[1;36m------Books sorted by Rating HIGH to LOW------\033[0m\n");
         displayAllBooks(tempBrr, bookIndex, 'r');
         break;
@@ -413,22 +425,23 @@ void sortBookByRating(Book *brr,Book* tempBrr)
     case 3:
     {
         printf("\t\033[1;36m------Highest Rated Book in Library------\033[0m\n");
-        displayBookByIndex(brr, searchBookById(brr,tempBrr, highestRatedBookId), 'r');
+        int res = searchBookById(brr, tempBrr,highestRatedBookId);
+        tempBrr[0] = brr[res];
+        displayAllBooks(tempBrr, 1, 'r');
         break;
     }
     case 4:
     {
         printf("\t\033[1;36m------Lowest Rated Book in Library------\033[0m\n");
-        displayBookByIndex(brr, searchBookById(brr,tempBrr, lowRatedBookId), 'r');
+        int res = searchBookById(brr, tempBrr,lowRatedBookId);
+        tempBrr[0] = brr[res];
+        displayAllBooks(tempBrr, 1, 'r');
         break;
     }
     case 5:
     {
         printf("\t\t\033[1;36m-----Top 3 Rated books-----\033[0m\n");
-        for (int i = bookIndex - 1; i >= bookIndex - 3; i--)
-        {
-            displayBookByIndex(tempBrr, i, 'r');
-        }
+        displayAllBooks(tempBrr, 3, 'r');
         break;
     }
 
@@ -438,7 +451,7 @@ void sortBookByRating(Book *brr,Book* tempBrr)
     }
 }
 
-int removeBook(Book *brr, Book* tempBrr)
+int removeBook(Book *brr, Book *tempBrr)
 {
     int tempId;
     printf("\t\033[1;36m Available Book Ids\033[0m\n");
@@ -446,7 +459,7 @@ int removeBook(Book *brr, Book* tempBrr)
     printf("Enter id of book you want to remove\n");
     scanf("%d", &tempId);
     fflush(stdin);
-    int indexOfBook = searchBookById(brr,tempBrr, tempId);
+    int indexOfBook = searchBookById(brr, tempBrr, tempId);
     if (indexOfBook == -1)
         return 0;
     for (int i = indexOfBook; i < bookIndex - 1; i++)
@@ -582,7 +595,7 @@ int main()
             printf("Enter book id to search\n");
             scanf("%d", &tempId);
             fflush(stdin);
-            int res = searchBookById(brr,tempBrr, tempId);
+            int res = searchBookById(brr, tempBrr, tempId);
             if (res == -1)
                 printf("\033[1;31mBook not Found! Try again with available id!!!\033[0m\n");
             else
@@ -591,22 +604,21 @@ int main()
         }
         case 4:
         {
-            searchBookByName(brr);
+            searchBookByName(brr, tempBrr);
             break;
         }
         case 5:
         {
-            fetchBooksByAuthor(brr);
+            fetchBooksByAuthor(brr, tempBrr);
             break;
         }
         case 6:
         {
-            fetchBooksByCategory(brr);
+            fetchBooksByCategory(brr, tempBrr);
             break;
         }
         case 7:
         {
-            // creating
             sortBookByPrice(brr, tempBrr);
             break;
         }
