@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 // global variable
 int bookIndex = 9;
+
 
 typedef struct Book
 {
@@ -14,6 +16,14 @@ typedef struct Book
     int price;
     double rating;
 } Book;
+
+typedef struct Student{
+    int studentId;
+    char name[20];
+    long long int mobileNo;
+    Book bookIssued;
+    char issuedDate[10];
+} Student;
 
 void getInputFGets(char *str, size_t size, const char *msg)
 {
@@ -541,14 +551,78 @@ void storeHardCodedValues(Book *brr)
     brr[8].rating = 4.5;
 }
 
+void hardCodedStudents(Student* srr, Book* brr){
+    srr[0].studentId = 1;
+    strcpy(srr[0].name, "Arjun");
+    srr[0].bookIssued = brr[0];
+    strcpy(srr[0].issuedDate, "27 12 2024");
+    srr[0].mobileNo = 9081882565;
+
+    srr[1].studentId = 2;
+    strcpy(srr[1].name, "Rohit");
+    srr[1].bookIssued = brr[1];
+    strcpy(srr[1].issuedDate, "07 01 2025");
+    srr[1].mobileNo = 7046265800;
+    
+    srr[2].studentId = 3;
+    strcpy(srr[2].name, "Rishi");
+    srr[2].bookIssued = brr[2];
+    strcpy(srr[2].issuedDate, "25 12 2024");
+    srr[2].mobileNo = 9775689450;
+}
+
+int calculate_days_difference_from_current(const char* date) {
+    struct tm tm_given = {0}, tm_current = {0};
+    time_t time_given, time_current;
+
+    // Parse the given date
+    sscanf(date, "%d %d %d", &tm_given.tm_mday, &tm_given.tm_mon, &tm_given.tm_year);
+
+    // Adjust the month and year
+    tm_given.tm_mon -= 1;        // tm_mon is 0-based
+    tm_given.tm_year -= 1900;    // tm_year is years since 1900
+
+    // Get the current date
+    time(&time_current);
+    tm_current = *localtime(&time_current);
+
+    // Convert both dates to time_t
+    time_given = mktime(&tm_given);
+
+    // Calculate the difference in seconds and convert to days
+    double difference = difftime(time_current, time_given);
+    return (int)(difference / (60 * 60 * 24));
+}
+
+void sendMsgToStd(Student* srr, Book* tempBrr){
+    for (int i = 0; i < 3; i++)
+    {
+        int diff = calculate_days_difference_from_current(srr[i].issuedDate);
+        if(diff>15){
+            printf("\nBook issued By \033[1;36m%s\033[0m:\n", srr[i].name);
+            tempBrr[0] = srr[i].bookIssued;
+            displayAllBooks(tempBrr, 1, 'i');
+            printf("\n\033[1;35m----------------------------------------------------\033[0m\n");
+            printf("Notice send to \033[1;33m%s\033[0m on mobile number \033[1;33m%lld\033[0m\n", srr[i].name, srr[i].mobileNo);
+            printf("Message:- Hi \033[1;33m%s\033[0m, You have to pay fine of rs 50 for late submission of book with id \033[1;33m%d\033[0m which was issued on \033[1;31m%s\033[0m\n", srr[i].name, srr[i].bookIssued.bookId, srr[i].issuedDate);
+            printf("\033[1;35m----------------------------------------------------\033[0m\n");
+        }
+    }
+    
+}
+
 int main()
 {
     int n;
     Book *brr = (Book *)malloc(50 * sizeof(Book));
     Book *tempBrr = (Book *)malloc(50 * sizeof(Book));
 
+    Student *srr = (Student *) malloc(10 * sizeof(Student));
+
     // hardcoded values for testing
     storeHardCodedValues(brr);
+    hardCodedStudents(srr, brr);
+    // printf(__TIME__);
 
     printf("\n\t\033[1;35m Welcome to Library\033[0m\n\n");
     printf("Enter valid choice\n");
@@ -566,6 +640,7 @@ int main()
         printf("8. Sort book by rating\n");
         printf("9. To update book details\n");
         printf("10. Remove book by id\n");
+        printf("11. Send message to Students for book submission\n");
         printf("\033[0;31m0. Exit\033[0m\n");
         scanf("%d", &n);
         fflush(stdin);
@@ -649,6 +724,10 @@ int main()
             if(indexOfBook == -1) break;
             int res = removeBook(brr, indexOfBook);
             (indexOfBook != -1) ? printf("\033[1;32mBook with id-> \033[1;33m%d\033[0m \033[1;32mdeleted successfully...!\033[0m\n", res) : printf("\033[1;31mBook not found with such id! Try again with valid book id.\033[0m\n");
+            break;
+        }
+        case 11: {
+            sendMsgToStd(srr, tempBrr);
             break;
         }
         default:
