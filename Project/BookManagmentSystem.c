@@ -156,6 +156,7 @@ int searchBookById(Book *brr, Book *tempBrr, int tempId)
 void searchBookByName(Book *brr, Book *tempBrr)
 {
     char tempName[30];
+    char bookTempName[30];
     int flag = 1, res = -1, tempCount = 0;
 
     // Taking book name to search
@@ -168,7 +169,8 @@ void searchBookByName(Book *brr, Book *tempBrr)
     printf("\t\t\033[1;36m-----Search Results-----\033[0m\n");
     for (int i = 0; i < bookIndex; i++)
     {
-        if (strstr(strlwr(brr[i].bookName), strlwr(tempName)))
+        strcpy(bookTempName, brr[i].bookName);
+        if (strstr(strlwr(bookTempName), strlwr(tempName)))
         {
             tempBrr[tempCount++] = brr[i];
             flag = 0;
@@ -370,7 +372,7 @@ void sortBookByPrice(Book *brr, Book *tempBrr)
 
 void sortBookByRating(Book *brr, Book *tempBrr)
 {
-    int choice, highestRatedBookId, lowRatedBookId;
+    int choice, highestRatedBookId, lowRatedBookId, tempCount = 0;
     for (int i = 0; i < bookIndex; i++)
     {
         tempBrr[i] = brr[i];
@@ -388,7 +390,7 @@ void sortBookByRating(Book *brr, Book *tempBrr)
     {
         for (int j = i + 1; j < bookIndex; j++)
         {
-            if ((choice == 1) ? tempBrr[i].rating > tempBrr[j].rating : tempBrr[i].rating < tempBrr[j].rating)
+            if ((choice == 1 || choice == 4) ? tempBrr[i].rating > tempBrr[j].rating : tempBrr[i].rating < tempBrr[j].rating)
             {
                 Book temp = tempBrr[i];
                 tempBrr[i] = tempBrr[j];
@@ -425,7 +427,7 @@ void sortBookByRating(Book *brr, Book *tempBrr)
     case 3:
     {
         printf("\t\033[1;36m------Highest Rated Book in Library------\033[0m\n");
-        int res = searchBookById(brr, tempBrr,highestRatedBookId);
+        int res = searchBookById(brr, tempBrr, highestRatedBookId);
         tempBrr[0] = brr[res];
         displayAllBooks(tempBrr, 1, 'r');
         break;
@@ -433,9 +435,20 @@ void sortBookByRating(Book *brr, Book *tempBrr)
     case 4:
     {
         printf("\t\033[1;36m------Lowest Rated Book in Library------\033[0m\n");
-        int res = searchBookById(brr, tempBrr,lowRatedBookId);
-        tempBrr[0] = brr[res];
-        displayAllBooks(tempBrr, 1, 'r');
+        // int res = searchBookById(brr, tempBrr,lowRatedBookId);
+        // tempBrr[0] = brr[res];
+        // printf("Testing\n");
+        // displayAllBooks(tempBrr, bookIndex, 'r');
+        // printf("Testing End\n");
+        for (int i = 0; i < bookIndex; i++)
+        {
+            if (brr[i].rating == tempBrr[0].rating)
+            {
+                tempBrr[tempCount++] = brr[i];
+            }
+        }
+
+        displayAllBooks(tempBrr, tempCount, 'r');
         break;
     }
     case 5:
@@ -451,23 +464,14 @@ void sortBookByRating(Book *brr, Book *tempBrr)
     }
 }
 
-int removeBook(Book *brr, Book *tempBrr)
+int removeBook(Book *brr, int index)
 {
-    int tempId;
-    printf("\t\033[1;36m Available Book Ids\033[0m\n");
-    displayAllBooks(brr, bookIndex, 'i');
-    printf("Enter id of book you want to remove\n");
-    scanf("%d", &tempId);
-    fflush(stdin);
-    int indexOfBook = searchBookById(brr, tempBrr, tempId);
-    if (indexOfBook == -1)
-        return 0;
-    for (int i = indexOfBook; i < bookIndex - 1; i++)
+    for (int i = index; i < bookIndex - 1; i++)
     {
         brr[i] = brr[i + 1];
     }
     bookIndex--;
-    return tempId;
+    return 1;
 }
 
 void storeHardCodedValues(Book *brr)
@@ -635,8 +639,16 @@ int main()
         }
         case 10:
         {
-            int res = removeBook(brr, tempBrr);
-            res ? printf("\033[1;32mBook with id-> \033[1;33m%d\033[0m \033[1;32mdeleted successfully...!\033[0m\n", res) : printf("\033[1;31mBook not found with such id! Try again with valid book id.\033[0m\n");
+            int tempId;
+            printf("\t\033[1;36m Available Book Ids\033[0m\n");
+            displayAllBooks(brr, bookIndex, 'i');
+            printf("Enter id of book you want to remove\n");
+            scanf("%d", &tempId);
+            fflush(stdin);
+            int indexOfBook = searchBookById(brr, tempBrr, tempId);
+            if(indexOfBook == -1) break;
+            int res = removeBook(brr, indexOfBook);
+            (indexOfBook != -1) ? printf("\033[1;32mBook with id-> \033[1;33m%d\033[0m \033[1;32mdeleted successfully...!\033[0m\n", res) : printf("\033[1;31mBook not found with such id! Try again with valid book id.\033[0m\n");
             break;
         }
         default:
